@@ -55,8 +55,9 @@ This is the **proposed two-developer review policy**: the author owns the PR #1 
 3. [`feature-process.md`](feature-process.md) or [`bugfix-process.md`](bugfix-process.md) - task-specific steps.
 4. [`pull-requests.md`](pull-requests.md) - each PR's reviewers, checks and merge method.
 5. [`release-and-migrations.md`](release-and-migrations.md) - staging, production and DB safety.
-6. [`agent-rules.md`](agent-rules.md) and root [`CLAUDE.md`](../../../CLAUDE.md) - agent permissions and stop conditions.
-7. [`claude-prompts.md`](claude-prompts.md) - sample agent prompts.
+6. [`branch-sync.md`](branch-sync.md) - daily routine, keeping `staging` in step with `main`, and the "only my commits" check before PR #2.
+7. [`agent-rules.md`](agent-rules.md) and root [`CLAUDE.md`](../../../CLAUDE.md) - agent permissions and stop conditions.
+8. [`claude-prompts.md`](claude-prompts.md) - sample agent prompts.
 
 ## Scope
 

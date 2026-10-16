@@ -69,6 +69,7 @@ If the fork is a differently named repository, confirm GitHub identifies the int
 
 - After PR #1 has **actually merged**, open a new PR with head **Moxie org** `feature/role-template-copy-v1` and base **Moxie org** `staging`. Do not accidentally raise a second fork PR to staging.
 - Confirm the diff contains only the intended feature, the branch is updated safely against current staging, and relevant migration numbers are still available.
+- Run `git log --oneline upstream/staging..upstream/<your-branch>`: every commit must belong to this task. If not, see [`branch-sync.md`](branch-sync.md).
 - The `staging`-target PR triggers the repo's lint, typecheck, tests, build, migration number check, and security scan. Require successful, *fresh* checks (and verify which checks are technically enforced).
 - Request **Raj** for code review/approval on this staging PR. **His submitted APPROVED GitHub review, on the latest substantive changes, is mandatory**, regardless of any PR #1 self-review or AI report. Obtain specialist input for complex DB/auth/office logic if appropriate. New substantive commits after his approval require a fresh review.
 - **An authorized human** merges only after Raj has approved and all blockers are resolved. The agent never self-approves, merges, or marks it approved.

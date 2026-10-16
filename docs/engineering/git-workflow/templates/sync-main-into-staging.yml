@@ -1,0 +1,84 @@
+name: Sync main into staging
+
+# Keeps `staging` a superset of `main`, so a feature branch cut from `main`
+# only shows its own commits when it is PR'd into `staging`.
+#
+# Every weekday morning (and on demand) this opens a PR `main -> staging`
+# when `main` has commits `staging` lacks. It never pushes to `staging`
+# itself: the PR goes through the normal checks and a human merges it.
+#
+# SETUP REQUIRED
+#   1. Settings > Actions > General > Workflow permissions:
+#      tick "Allow GitHub Actions to create and approve pull requests".
+#   2. PRs opened with the default GITHUB_TOKEN do not start other workflows,
+#      so CI will not run on the sync PR by itself. Either add a repo secret
+#      SYNC_TOKEN (a fine-grained token with Pull requests: write and
+#      Contents: read on this repo), or close and reopen the PR to start CI.
+#
+# IF THE PR SHOWS CONFLICTS
+#   Do not resolve them on `main`. Make a branch from `staging`, merge
+#   `main` into it, fix the conflicts, and PR that branch into `staging`:
+#     git fetch upstream
+#     git switch -c sync/main-into-staging-$(date +%F) upstream/staging
+#     git merge upstream/main
+#   Then close the automatic PR.
+
+on:
+  schedule:
+    - cron: '0 14 * * 1-5'   # 14:00 UTC = 7:00 Phoenix time, Mon-Fri
+  workflow_dispatch:
+
+concurrency:
+  group: sync-main-into-staging
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  open-sync-pr:
+    name: Open main -> staging PR
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.SYNC_TOKEN || secrets.GITHUB_TOKEN }}
+      REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Count commits on main that staging is missing
+        id: behind
+        run: |
+          git fetch origin main staging
+          count=$(git rev-list --count origin/staging..origin/main)
+          echo "count=$count" >> "$GITHUB_OUTPUT"
+          echo "staging is missing $count commit(s) from main"
+
+      - name: Open the PR (or note the one already open)
+        if: steps.behind.outputs.count != '0'
+        run: |
+          existing=$(gh pr list --repo "$REPO" --base staging --head main --state open --json url --jq '.[0].url')
+          if [ -n "$existing" ]; then
+            echo "Sync PR already open: $existing"
+            echo "Sync PR already open: $existing" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          body=$(mktemp)
+          {
+            echo "Automatic daily sync: brings \`main\` into \`staging\` so \`staging\` stays a superset of \`main\`."
+            echo ""
+            echo "**Commits on \`main\` not yet on \`staging\` (${{ steps.behind.outputs.count }}):**"
+            echo ""
+            git log --no-merges --format='- %h %s (%an)' origin/staging..origin/main
+            echo ""
+            echo "Merge with a **merge commit** (not squash), so the same commits are not replayed later."
+            echo "If GitHub shows conflicts, follow the steps at the top of \`.github/workflows/sync-main-into-staging.yml\`."
+          } > "$body"
+
+          url=$(gh pr create --repo "$REPO" --base staging --head main \
+            --title "chore: sync main into staging ($(date -u +%F))" \
+            --body-file "$body")
+          echo "Opened $url" >> "$GITHUB_STEP_SUMMARY"
