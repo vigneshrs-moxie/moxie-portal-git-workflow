@@ -31,6 +31,7 @@ feature/xyz (from main) ──●──●┘ PR #1 fork -> org branch, PR #2 ->
    ```
    - If other people's commits appear, `main` is ahead of `staging`. Get the sync PR merged first, then check again. If you can't wait, rebuild the branch from `upstream/staging` by cherry-picking your commits. Ask before force-pushing anything already shared.
    - Check that the PR's **Files changed** count on GitHub matches what you expect.
+   - If PR #2 shows **conflicts** with `staging`, follow [`staging-conflicts.md`](staging-conflicts.md).
 5. **After merge to staging:** test on deployed staging ([`release-and-migrations.md`](release-and-migrations.md)).
 
 ## Not decided yet

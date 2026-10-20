@@ -56,6 +56,7 @@ This is the **proposed two-developer review policy**: the author owns the PR #1 
 4. [`pull-requests.md`](pull-requests.md) - each PR's reviewers, checks and merge method.
 5. [`release-and-migrations.md`](release-and-migrations.md) - staging, production and DB safety.
 6. [`branch-sync.md`](branch-sync.md) - daily routine, keeping `staging` in step with `main`, and the "only my commits" check before PR #2.
+   - [`staging-conflicts.md`](staging-conflicts.md) - what to do when PR #2 shows conflicts with `staging`, step by step.
 7. [`agent-rules.md`](agent-rules.md) and root [`CLAUDE.md`](../../../CLAUDE.md) - agent permissions and stop conditions.
 8. [`claude-prompts.md`](claude-prompts.md) - sample agent prompts.
 
