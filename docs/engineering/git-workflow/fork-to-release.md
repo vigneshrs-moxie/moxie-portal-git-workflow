@@ -4,14 +4,14 @@
 
 ## Worked example: ticket comments feature (ORBIT-123, illustrative)
 
-The exact branch name in both repositories is `feature/orbit-123-ticket-comments-v1`. The author's fork may have a **different repository name**; only the branch name is the same.
+The exact branch name in both repositories is `feature/orbit-123-ticket-comments`. The author's fork may have a **different repository name**; only the branch name is the same.
 
 | Stage | GitHub PR | Gate / owner | Result |
 | --- | --- | --- | --- |
 | Ticket | No PR yet | Real Orbit ticket exists (ID, URL, owner, agreed scope); created/found in Portal Feedback | Work is traceable before any branch exists |
 | Prepare | No PR yet | Developer/agent verifies fork, Moxie remote, base SHA, plan and isolation | Fork task branch and Moxie integration branch are based on the correct Moxie environment baseline |
-| 1. Intake | `<personal fork>:feature/orbit-123-ticket-comments-v1` -> `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments-v1` | Developer's **own review**, optional AI code review, local checks; developer **manually merges** | Code moves from personal fork to matching org branch; **not staged or released** |
-| 2. Staging | `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments-v1` -> `Moxie-Pest-Control-Phoenix/moxie-portal:staging` | Up-to-date CI + security, **Raj's code review and recorded approval**, then human merge | Code becomes part of staging |
+| 1. Intake | `<personal fork>:feature/orbit-123-ticket-comments` -> `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments` | Developer's **own review**, optional AI code review, local checks; developer **manually merges** | Code moves from personal fork to matching org branch; **not staged or released** |
+| 2. Staging | `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments` -> `Moxie-Pest-Control-Phoenix/moxie-portal:staging` | Up-to-date CI + security, **Raj's code review and recorded approval**, then human merge | Code becomes part of staging |
 | Validate | No new PR | Developer/QA tests actual staging deployment; logs results and blockers | Release candidate has evidence of working behavior |
 | 3. Release | `Moxie-Pest-Control-Phoenix/moxie-portal:staging` -> `Moxie-Pest-Control-Phoenix/moxie-portal:main` | Release PR lists every change and risk; Raj/authorized release owner approves; human merges/deploys | Release includes all staged changes shown in the diff |
 | Confirm | No new PR | Release owner checks deployment, migration jobs and smoke tests | Each included ticket and changelog updated with real production status |
@@ -30,10 +30,10 @@ Conceptual setup, after verifying remotes (do not paste blindly):
 ```bash
 git remote -v                           # check actual fork and Moxie URLs
 git fetch upstream --prune             # only if upstream is verified Moxie
-git worktree add -b feature/orbit-123-ticket-comments-v1 ../orbit-ticket-comments upstream/main
+git worktree add -b feature/orbit-123-ticket-comments ../orbit-ticket-comments upstream/main
 cd ../orbit-ticket-comments
 # Push ONLY to your personal fork after authorization:
-git push -u origin feature/orbit-123-ticket-comments-v1
+git push -u origin feature/orbit-123-ticket-comments
 # Register the branch URL on ORBIT-123 (Branches field, or the authorized API/MCP).
 # Have an authorized team member create the matching org branch
 # from the same upstream/main SHA if it does not exist.
@@ -52,7 +52,7 @@ The org integration branch should start from the *same authorized baseline* as t
 
 ## 2. PR #1: fork branch -> matching Moxie branch
 
-- Open the PR **in Moxie's repo** with the *head* `YOUR_FORK_OWNER:feature/orbit-123-ticket-comments-v1` and *base* `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments-v1`.
+- Open the PR **in Moxie's repo** with the *head* `YOUR_FORK_OWNER:feature/orbit-123-ticket-comments` and *base* `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments`.
 - Verify **both repository owners and both ref names**, not just the label. A same-name branch in two different repos is valid.
 - Fill the template's ticket fields (primary/additional Orbit tickets with URLs, related branches/PRs, acceptance criteria/spec and demo links where applicable), changes, proof of local tests, migrations, risks and screenshots. **You are the PR #1 reviewer**: inspect the exact final diff, run or read any optional AI-review report, resolve meaningful findings, and record a short self-review outcome in the PR body/comment. When satisfied and GitHub permits, **you manually merge PR #1** into the Moxie feature branch. **Raj's approval and a second human reviewer are not prerequisites here.** Do not try to submit an APPROVED review on your own PR; it does not count as an independent GitHub approval.
 - A security scan on this PR is **not an all-tests-passed signal**. Run local checks and record the results.
@@ -61,8 +61,8 @@ Example `gh` arguments, after checking repo names, permissions and branch existe
 
 ```bash
 gh pr create --repo Moxie-Pest-Control-Phoenix/moxie-portal \
-  --head YOUR_GITHUB_USERNAME:feature/orbit-123-ticket-comments-v1 \
-  --base feature/orbit-123-ticket-comments-v1 \
+  --head YOUR_GITHUB_USERNAME:feature/orbit-123-ticket-comments \
+  --base feature/orbit-123-ticket-comments \
   --title 'feat(feedback): ORBIT-123 add ticket comments'
 ```
 
@@ -72,7 +72,7 @@ If the fork is a differently named repository, confirm GitHub identifies the int
 
 ## 3. PR #2: organization feature branch -> staging
 
-- After PR #1 has **actually merged**, open a new PR with head **Moxie org** `feature/orbit-123-ticket-comments-v1` and base **Moxie org** `staging`. Do not accidentally raise a second fork PR to staging.
+- After PR #1 has **actually merged**, open a new PR with head **Moxie org** `feature/orbit-123-ticket-comments` and base **Moxie org** `staging`. Do not accidentally raise a second fork PR to staging.
 - Confirm the diff contains only the intended feature, the branch is updated safely against current staging, and relevant migration numbers are still available.
 - Run `git log --oneline upstream/staging..upstream/<your-branch>`: every commit must belong to this task. If not, see [`branch-sync.md`](branch-sync.md).
 - The `staging`-target PR triggers the repo's lint, typecheck, tests, build, migration number check, and security scan. Require successful, *fresh* checks (and verify which checks are technically enforced).

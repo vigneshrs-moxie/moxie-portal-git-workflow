@@ -5,7 +5,7 @@
 ## Normal route and exception
 
 ```text
-Normal feature:  fork feature/orbit-<n>-xyz-v1 -> org feature/orbit-<n>-xyz-v1 -> org staging -> org main
+Normal feature:  fork feature/orbit-<n>-xyz -> org feature/orbit-<n>-xyz -> org staging -> org main
                  PR #1: developer self-review + local checks (optional AI reviewer)
                  PR #2: full CI + Raj's submitted GitHub approval
                  PR #3: staging QA + release summary + non-author GitHub approval

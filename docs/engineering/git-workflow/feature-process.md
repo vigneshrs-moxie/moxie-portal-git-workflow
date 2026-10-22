@@ -12,8 +12,8 @@ This is the **standard feature route**. Read [`fork-to-release.md`](fork-to-rele
 ## 2. Branch in your personal fork; reserve the same branch in Moxie
 
 - Fetch the latest **Moxie `main`** as authoritative baseline (never `staging`), using verified remotes. `origin` may be the personal fork; do not infer its identity from the name.
-- Create a dedicated **fork** branch/worktree, e.g. `feature/orbit-123-ticket-comments-v1` (your real ticket number) based on that Moxie `main` SHA.
-- Arrange for an authorized developer to create/reserve **Moxie org branch `feature/orbit-123-ticket-comments-v1`** from the same `main` baseline. Check it is not owned by another task; never push development directly to this shared branch.
+- Create a dedicated **fork** branch/worktree, e.g. `feature/orbit-123-ticket-comments` (your real ticket number) based on that Moxie `main` SHA.
+- Arrange for an authorized developer to create/reserve **Moxie org branch `feature/orbit-123-ticket-comments`** from the same `main` baseline. Check it is not owned by another task; never push development directly to this shared branch.
 - Check both repositories and refs before making changes or opening PRs.
 
 ## 3. Implement and test locally
@@ -32,7 +32,7 @@ npm run build
 ## 4. First PR: your fork -> Moxie feature branch
 
 - With authorization, push the task branch to the **personal fork**.
-- Open **PR #1** with head `<your personal fork>:feature/orbit-123-ticket-comments-v1` and base `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments-v1`, titled e.g. `feat(feedback): ORBIT-123 add ticket comments`.
+- Open **PR #1** with head `<your personal fork>:feature/orbit-123-ticket-comments` and base `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments`, titled e.g. `feat(feedback): ORBIT-123 add ticket comments`.
 - Register the pushed fork branch and PR #1 on the ticket (**Branches** / **Pull requests** fields, or the authorized API/MCP once available).
 - Fill the template's ticket fields (primary and additional tickets, related branches/PRs, acceptance criteria/spec and HTML demo links, knowledge-base docs and requirement-approval evidence where applicable), approved plan, summary, changes, local test evidence, known risks, UI proof (if appropriate), migration notes and a short **author self-review** report (including optional AI review findings). **You are the first-stage reviewer. No Raj/second developer approval is needed for this PR.** Address issues on the fork branch.
 - Once satisfied and GitHub allows it, **you manually merge PR #1**. Confirm the **Moxie integration branch** contains the expected commits. This merge does **not** deploy to staging. Coding agents never merge PRs.
@@ -51,4 +51,4 @@ npm run build
 - Any staging bug must be fixed through another reviewed branch/PR path, not an unreviewed direct staging push. Clearly mark release blockers.
 - A release owner collects the finished staged work into **PR #3: Moxie `staging` -> `main`**, with a summary of all included features/fixes, staging test evidence, migrations, configuration, known issues and rollback plan. A human approves/merges and verifies production. Agents can draft the release summary but never deploy or merge it.
 
-**Example:** ORBIT-123 -> `feature/orbit-123-ticket-comments-v1` in fork -> `feature/orbit-123-ticket-comments-v1` in Moxie -> `staging` after Raj's approval -> inclusion in a reviewed `staging` -> `main` release.
+**Example:** ORBIT-123 -> `feature/orbit-123-ticket-comments` in fork -> `feature/orbit-123-ticket-comments` in Moxie -> `staging` after Raj's approval -> inclusion in a reviewed `staging` -> `main` release.

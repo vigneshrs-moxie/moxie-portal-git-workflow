@@ -7,7 +7,7 @@ These prompts require the root `CLAUDE.md` and `docs/engineering/git-workflow/` 
 ```text
 Read CLAUDE.md, docs/engineering/git-workflow/README.md and fork-to-release.md. Plan this Moxie Orbit feature: [ORBIT-<number> + TICKET URL, DESCRIPTION]. Do not edit code or create branches yet. If I have not given a real Orbit ticket, ask for it (or, once available, use the authorized Portal Feedback API/MCP); never invent one.
 
-Verify the Moxie repo and my personal fork remotes. Inspect current Moxie main, code, related tickets and plans. Suggest a unique feature/orbit-<number>-<slug>-v1 name to use in BOTH repositories. Give concise scope, acceptance tests, risk, migrations/config changes, and exact proposed fork -> org branch -> staging -> main PR route. Stop for my plan approval.
+Verify the Moxie repo and my personal fork remotes. Inspect current Moxie main, code, related tickets and plans. Suggest a unique feature/orbit-<number>-<slug> name to use in BOTH repositories. Give concise scope, acceptance tests, risk, migrations/config changes, and exact proposed fork -> org branch -> staging -> main PR route. Stop for my plan approval.
 ```
 
 ## B. Implement the approved feature in the personal fork
@@ -15,7 +15,7 @@ Verify the Moxie repo and my personal fork remotes. Inspect current Moxie main, 
 ```text
 Implement approved feature [ORBIT-<number> + TICKET URL, PLAN] using the Moxie Git workflow. Read CLAUDE.md, fork-to-release.md, branch-naming.md, feature-process.md and agent-rules.md.
 
-First show the starting-state report (ticket ID/URL, owner, agreed scope), verified fork and Moxie remote URLs, current branch/worktree, latest authoritative Moxie main SHA, and a branch name such as feature/orbit-<number>-<slug>-v1. Create an isolated worktree on that branch in MY PERSONAL FORK from Moxie main. Do not write feature code directly onto any organization branch. Confirm the matching Moxie branch exists or ask for authorization to reserve it; never overwrite an existing branch.
+First show the starting-state report (ticket ID/URL, owner, agreed scope), verified fork and Moxie remote URLs, current branch/worktree, latest authoritative Moxie main SHA, and a branch name such as feature/orbit-<number>-<slug>. Create an isolated worktree on that branch in MY PERSONAL FORK from Moxie main. Do not write feature code directly onto any organization branch. Confirm the matching Moxie branch exists or ask for authorization to reserve it; never overwrite an existing branch.
 
 Implement only approved behavior with automated tests. Run focused tests, cd app && npm run check, and cd app && npm run build as appropriate. Review the FULL diff and migrations, report code-quality/security risks, and optionally request a separate AI code review if I have approved its use. Prepare PR #1 FROM my fork branch INTO the matching Moxie organization branch (same exact branch name). Present the self-review checklist/findings for MY final review and manual merge. Ask before pushing/opening unless already authorized. Do not merge or deploy.
 ```

@@ -6,7 +6,7 @@ Every new internal task branch carries its **primary Orbit ticket**, which must 
 
 | Work | Format | Fork AND org example |
 | --- | --- | --- |
-| Feature | `feature/orbit-<number>-<slug>-v<N>` | `feature/orbit-123-ticket-comments-v1` |
+| Feature | `feature/orbit-<number>-<slug>` | `feature/orbit-123-ticket-comments` |
 | Bug / hotfix | `fix/orbit-<number>-<slug>` | `fix/orbit-124-comment-save` |
 | CI | `ci/orbit-<number>-<slug>` | `ci/orbit-126-migration-number-check` |
 | Maintenance | `chore/orbit-<number>-<slug>` | `chore/orbit-127-update-dependencies` |
@@ -17,9 +17,9 @@ Every new internal task branch carries its **primary Orbit ticket**, which must 
 
 - **Why the ticket goes in the name:** anyone looking at a branch, worktree or PR head can find the ticket without opening anything, and Portal Feedback can match pushed branches to tickets.
 - **Why lowercase `orbit-123`:** branch names stay all-lowercase kebab-case like the rest of the repo; `ORBIT-123` remains the human-facing key in titles, PR bodies and tickets.
-- **`-vN` (features only)** still means a separately scoped **feature increment**, not an application release version. Use `-v2` for a separately planned second increment, not merely the second commit or PR on `-v1`. A `-v2` increment normally has its own ticket.
+- **No version suffix.** Don't add `-v1`, `-v2` or similar. A later, separately scoped increment of a feature gets its own ticket, and that ticket's number already gives the branch a distinct name. Existing `-vN` branches keep their names.
 - **One focused task and one primary ticket per branch.** Closely related work may cover additional tickets; list them in the PR (**Additional Orbit tickets**). Never concatenate several ticket IDs into the branch name.
-- **Same name, two repositories, two branches.** Branch identity is repository + full ref: `vigneshrs-moxie/moxie-portal-vrs:feature/orbit-123-ticket-comments-v1` and `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments-v1` are distinct refs that deliberately share a name.
+- **Same name, two repositories, two branches.** Branch identity is repository + full ref: `vigneshrs-moxie/moxie-portal-vrs:feature/orbit-123-ticket-comments` and `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments` are distinct refs that deliberately share a name.
 - Do not fabricate a ticket number or use a placeholder such as `ORBIT-TBD`; there is no ticketless branch path for new internal work. Avoid collisions: check that the chosen name is not already owned by another task or agent.
 
 **Existing and external branches are unchanged.** The format applies to new internal task branches only. Do not rename, rebase, force-push, delete or recreate existing branches (for example `feature/role-template-copy-v1`, `feature/orbit-tickets-v1` or unprefixed legacy branches) to comply; link active legacy work to its ticket through the ticket's fields and the PR body instead. Keep `main`, `staging`, `mirror/*`, `dependabot/*`, `revert-*` and `feat/*` branches under their current names and owners. Do not invent a `release/*` scheme; release strategy and versioning are undecided. Internal remediation arising from vendor or bot work (for example a fix after a Dependabot bump) is a normal ticketed task branch.
@@ -54,7 +54,7 @@ git worktree list
 # and origin points to YOUR personal fork.
 git fetch upstream --prune
 # ORBIT-123 exists and its ID/URL are in the starting-state report
-git worktree add -b feature/orbit-123-ticket-comments-v1 ../orbit-ticket-comments upstream/main
+git worktree add -b feature/orbit-123-ticket-comments ../orbit-ticket-comments upstream/main
 cd ../orbit-ticket-comments
 git branch --show-current
 git status --short

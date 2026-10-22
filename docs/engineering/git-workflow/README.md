@@ -10,10 +10,10 @@ Every new development task starts with an **Orbit ticket**, then a dedicated bra
 Moxie main (starting baseline for every task)
     |                         Same branch name in TWO repositories
     |   (Orbit ticket ORBIT-123 exists first)
-    +--> personal fork: feature/orbit-123-ticket-comments-v1
+    +--> personal fork: feature/orbit-123-ticket-comments
     |       code + local checks
     |       PR #1: fork feature/... -> Moxie feature/...  (developer self-review; optional AI review)
-    +--> Moxie org:   feature/orbit-123-ticket-comments-v1
+    +--> Moxie org:   feature/orbit-123-ticket-comments
             PR #2: Moxie feature/... -> Moxie staging  (CI + Raj's code review/approval)
           Moxie staging
             deploy + documented staging QA/signoff
