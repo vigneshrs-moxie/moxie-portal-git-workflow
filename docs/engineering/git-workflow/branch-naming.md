@@ -2,19 +2,27 @@
 
 ## Naming for new branches
 
-Use short, lowercase kebab-case. The `-vN` suffix identifies a separately scoped **feature increment** (not an application release). Always use the **same task branch name in your fork and in Moxie's repo**.
+Every new internal task branch carries its **primary Orbit ticket**, which must exist before the branch does (see [README: Every new task starts with an Orbit ticket](README.md#every-new-task-starts-with-an-orbit-ticket)). People write the key as `ORBIT-123`; branches use lowercase `orbit-123`. Otherwise use short, lowercase kebab-case. Always use the **same task branch name in your fork and in Moxie's repo**.
 
 | Work | Format | Fork AND org example |
 | --- | --- | --- |
-| Feature | `feature/<slug>-v<N>` | `feature/role-template-copy-v1` |
-| Bug with ticket | `fix/<ticket-id>-<slug>` | `fix/orbit-123-rating-submit` |
-| Bug without ticket | `fix/<slug>` | `fix/talent-ratings-save` |
-| CI | `ci/<slug>` | `ci/migration-number-check` |
-| Maintenance | `chore/<slug>` | `chore/update-dependencies` |
-| Docs | `docs/<slug>` | `docs/git-workflow` |
-| Refactor | `refactor/<slug>` | `refactor/rating-query` |
+| Feature | `feature/orbit-<number>-<slug>-v<N>` | `feature/orbit-123-ticket-comments-v1` |
+| Bug / hotfix | `fix/orbit-<number>-<slug>` | `fix/orbit-124-comment-save` |
+| CI | `ci/orbit-<number>-<slug>` | `ci/orbit-126-migration-number-check` |
+| Maintenance | `chore/orbit-<number>-<slug>` | `chore/orbit-127-update-dependencies` |
+| Docs | `docs/orbit-<number>-<slug>` | `docs/orbit-125-ticket-linking` |
+| Refactor | `refactor/orbit-<number>-<slug>` | `refactor/orbit-128-rating-query` |
 
-Do not fabricate a ticket number. Use `-v2` for a separately planned second increment, not merely the second commit or PR on `-v1`. Avoid collisions: check that the chosen name is not already owned by another issue or agent. Keep existing `main`, `staging`, `mirror/*`, `dependabot/*`, `revert-*`, `feat/*` and unprefixed legacy branches unchanged.
+**Example numbers are illustrative only**; never reuse them. Use your real ticket's number.
+
+- **Why the ticket goes in the name:** anyone looking at a branch, worktree or PR head can find the ticket without opening anything, and Portal Feedback can match pushed branches to tickets.
+- **Why lowercase `orbit-123`:** branch names stay all-lowercase kebab-case like the rest of the repo; `ORBIT-123` remains the human-facing key in titles, PR bodies and tickets.
+- **`-vN` (features only)** still means a separately scoped **feature increment**, not an application release version. Use `-v2` for a separately planned second increment, not merely the second commit or PR on `-v1`. A `-v2` increment normally has its own ticket.
+- **One focused task and one primary ticket per branch.** Closely related work may cover additional tickets; list them in the PR (**Additional Orbit tickets**). Never concatenate several ticket IDs into the branch name.
+- **Same name, two repositories, two branches.** Branch identity is repository + full ref: `vigneshrs-moxie/moxie-portal-vrs:feature/orbit-123-ticket-comments-v1` and `Moxie-Pest-Control-Phoenix/moxie-portal:feature/orbit-123-ticket-comments-v1` are distinct refs that deliberately share a name.
+- Do not fabricate a ticket number or use a placeholder such as `ORBIT-TBD`; there is no ticketless branch path for new internal work. Avoid collisions: check that the chosen name is not already owned by another task or agent.
+
+**Existing and external branches are unchanged.** The format applies to new internal task branches only. Do not rename, rebase, force-push, delete or recreate existing branches (for example `feature/role-template-copy-v1`, `feature/orbit-tickets-v1` or unprefixed legacy branches) to comply; link active legacy work to its ticket through the ticket's fields and the PR body instead. Keep `main`, `staging`, `mirror/*`, `dependabot/*`, `revert-*` and `feat/*` branches under their current names and owners. Do not invent a `release/*` scheme; release strategy and versioning are undecided. Internal remediation arising from vendor or bot work (for example a fix after a Dependabot bump) is a normal ticketed task branch.
 
 ## Choose starting baseline and destination
 
@@ -45,15 +53,16 @@ git worktree list
 # Verify upstream points to Moxie-Pest-Control-Phoenix/moxie-portal
 # and origin points to YOUR personal fork.
 git fetch upstream --prune
-git worktree add -b feature/role-template-copy-v1 ../orbit-role-template-copy upstream/main
-cd ../orbit-role-template-copy
+# ORBIT-123 exists and its ID/URL are in the starting-state report
+git worktree add -b feature/orbit-123-ticket-comments-v1 ../orbit-ticket-comments upstream/main
+cd ../orbit-ticket-comments
 git branch --show-current
 git status --short
 ```
 
-For a bug, replace the feature branch with the appropriate `fix/...` name; the base is still `upstream/main`. The org integration branch must be reserved/created by an authorized writer from the agreed baseline and must **not** be an unrelated or existing developer's branch. Check `git ls-remote --heads upstream <branch-name>` before creation; never overwrite a remote branch. Do not create a new worktree on top of an existing task worktree; inspect its owner and state first.
+For a bug, replace the feature branch with the appropriate `fix/orbit-<number>-<slug>` name; the base is still `upstream/main`. The org integration branch must be reserved/created by an authorized writer from the agreed baseline and must **not** be an unrelated or existing developer's branch. Check `git ls-remote --heads upstream <branch-name>` before creation; never overwrite a remote branch. Do not create a new worktree on top of an existing task worktree; inspect its owner and state first.
 
-When code is ready, push **only to the personal fork** (after authorization). **PR #1** uses your fork as head and the same-named Moxie branch as base; **you self-review and manually merge it** after local tests (AI review optional). **PR #2** uses that Moxie branch as head and Moxie `staging` as base; **Raj's GitHub approval is required**. GitHub URLs and owner/ref matter: same-looking branch names in different repos are not a self-merge.
+When code is ready, push **only to the personal fork** (after authorization). **PR #1** uses your fork as head and the same-named Moxie branch as base; **you self-review and manually merge it** after local tests (AI review optional). **PR #2** uses that Moxie branch as head and Moxie `staging` as base; **Raj's GitHub approval is required**. GitHub URLs and owner/ref matter: same-looking branch names in different repos are not a self-merge. After each push or PR, register the branch/PR URL on the Orbit ticket (README, *Link the work back to the ticket*).
 
 See [`fork-to-release.md`](fork-to-release.md) for the end-to-end PR sequence and `gh` example.
 

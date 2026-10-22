@@ -1,6 +1,16 @@
 ## Purpose and ticket
 
-What changed, why, and which ORBIT ticket/spec covers it?
+What changed and why?
+
+**Primary Orbit ticket:** ORBIT-<number> - <ticket URL>
+**Additional Orbit tickets:** <IDs + URLs, or None>
+**Related branches and PRs:** <repository-qualified links, e.g. `vigneshrs-moxie/moxie-portal-vrs:feature/orbit-123-...`, earlier-stage PR URLs>
+**Acceptance criteria / specification:** <link, or N/A>
+**HTML demo:** <link, or N/A>
+**Knowledge-base documentation:** <link, or N/A>
+**Requirement approval evidence:** <link/who/when, or N/A>
+
+> Ticket IDs are illustrative in examples; use real tickets only. Don't write `Closes #123` for ORBIT-123 (that closes a GitHub issue). For a release PR, list every included ticket in the release summary below.
 
 ## PR stage (choose one)
 
@@ -58,7 +68,7 @@ What changed, why, and which ORBIT ticket/spec covers it?
 
 ## Release-only summary (PR #3)
 
-- All included feature/fix PRs/tickets and user-visible changes:
+- Every included Orbit ticket and PR, from the actual staging-vs-main diff (a release covers several tickets, not one feature ticket), and user-visible changes:
 - Staging deployment commit, QA testers/results and blockers:
 - Production migration/config order, owner and rollback:
 - Production verification checklist:

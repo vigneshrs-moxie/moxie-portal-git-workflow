@@ -5,19 +5,19 @@
 ## Normal route and exception
 
 ```text
-Normal feature:  fork feature/xyz -> org feature/xyz -> org staging -> org main
+Normal feature:  fork feature/orbit-<n>-xyz-v1 -> org feature/orbit-<n>-xyz-v1 -> org staging -> org main
                  PR #1: developer self-review + local checks (optional AI reviewer)
                  PR #2: full CI + Raj's submitted GitHub approval
                  PR #3: staging QA + release summary + non-author GitHub approval
 
-Nonurgent bug:   fork fix/xyz -> org fix/xyz -> org staging -> org main
+Nonurgent bug:   fork fix/orbit-<n>-xyz -> org fix/orbit-<n>-xyz -> org staging -> org main
                  (bug reproduced from authoritative main, also validate against main baseline)
 
-Urgent prod bug: fork fix/xyz -> org fix/xyz -> org main -> reviewed sync into staging
-                 (only with human incident/release-owner authorization)
+Urgent prod bug: fork fix/orbit-<n>-xyz -> org fix/orbit-<n>-xyz -> org main -> reviewed sync into staging
+                 (incident ticket recorded first; only with human incident/release-owner authorization)
 ```
 
-**Release PR** `Moxie staging -> Moxie main` should summarize *all staged changes*, not one feature. Prefer preserving staging ancestry with a merge commit, rather than squashing the entire staging history. No fresh feature implementation belongs directly in the release PR.
+**Release PR** `Moxie staging -> Moxie main` should summarize *all staged changes* and every included Orbit ticket, not one feature. Prefer preserving staging ancestry with a merge commit, rather than squashing the entire staging history. No fresh feature implementation belongs directly in the release PR.
 
 ## Deployment configuration
 

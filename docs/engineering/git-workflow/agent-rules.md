@@ -5,8 +5,11 @@
 ## Report the starting state before editing
 
 ```text
-Task / ORBIT ticket: ...
-Kind: feature | production bug | staging-only bug | maintenance
+Primary Orbit ticket: ORBIT-<number> + ticket URL (real ticket; never invented or ORBIT-TBD)
+Additional Orbit tickets: IDs + URLs, or None
+Task owner: ...
+Agreed scope (ticket does not itself authorize it): ...
+Kind: feature | production bug | staging-only bug | urgent incident | CI | maintenance | docs | refactor
 Moxie authoritative repository: Moxie-Pest-Control-Phoenix/moxie-portal
 Verified personal fork repo + remote: ...
 Verified Moxie remote: ...
@@ -18,13 +21,14 @@ Uncommitted changes and related existing PRs: ...
 Approved scope / test cases: ...
 ```
 
-Never use `origin/main` or `origin/staging` as the authoritative baseline until the remote URL is verified. Do not overwrite existing org refs or modify another developer/agent's worktree.
+If there is no real ticket yet, finish read-only preparation and stop for the ticket (manual Portal Feedback today; the documented API/MCP once it exists). Never scrape around missing permissions. Never use `origin/main` or `origin/staging` as the authoritative baseline until the remote URL is verified. Do not overwrite existing org refs or modify another developer/agent's worktree.
 
 ## Default responsibilities
 
 **Agent/developer can do, within approved task scope:**
 
 - Inspect tickets, docs, code and history; propose acceptance criteria, tests and a plan.
+- Once the Portal Feedback API/MCP is available and authorized, create/find tickets and register pushed branches and created PRs through it. Until then, give the human the exact URLs to paste into the ticket's **Branches** and **Pull requests** fields.
 - Create a personal-fork task branch in a dedicated worktree, implement changes, write tests, and make local commits.
 - Run safe local tests/builds, inspect diffs, **perform and document an AI-assisted code review when requested**, prepare clear PR bodies and release notes. Flag findings for the developer; do not decide on behalf of the human that the review gate is satisfied.
 - With specific authorization, push to the **personal fork** and open PR #1 for the **developer's own review** (optional independent code-review agent). The developer may manually merge it if checks pass and GitHub allows. After it merges, prepare PR #2 from the **org integration branch** to `staging` and request Raj's review. Draft PR #3 release notes without merging.
@@ -41,6 +45,7 @@ Never use `origin/main` or `origin/staging` as the authoritative baseline until 
 - Merge **any** PR stage (#1, #2, #3), bypass checks, force-push/reset/delete shared branches, or modify another person's commits/worktree.
 - Deploy, apply migrations to staging/production, change live production data, disclose secrets or work around security restrictions.
 - Mark tickets 'deployed' because a branch or PR merged; actual deployment and verification are separate.
+- Advance a ticket's status or post a shared ticket comment as a side effect of registering a branch/PR link. Linking, merging, requirement approval and production availability are separate events.
 
 ## Three handoffs
 
@@ -53,8 +58,8 @@ An urgent production bug may change **PR #2 target to `main`**, but only on expl
 ## Standard task flow
 
 1. Confirm task type; the baseline is always the latest Moxie `main` (never `staging`).
-2. Check duplicate/already fixed tickets, relevant product docs and affected code.
-3. Get approval on scope; choose branch name, reserve identical org branch via human authorization, create isolated fork worktree.
+2. Confirm the real Orbit ticket (ID, URL, owner, scope); check duplicate/already fixed tickets, relevant product docs and affected code.
+3. Get approval on scope; choose the `<type>/orbit-<number>-<slug>` branch name, reserve identical org branch via human authorization, create isolated fork worktree.
 4. Implement minimum complete change; tests for happy path, errors and access boundaries.
 5. Run the checks; examine the **full diff** for secrets, sensitive DB/role/office changes, scope expansion and generated files; prepare a review report and invite an approved AI review agent if the developer chooses.
 6. Prepare PR #1 and stop for authorization if pushing/opening wasn't requested. The **developer reviews and may manually merge** after documenting their findings; the coding agent cannot. Do not mistake a green secret scan for full CI.
@@ -76,8 +81,11 @@ One task = one owned fork branch = one owned org integration branch = one writer
 ## Final agent handoff format
 
 ```text
-Fork branch/worktree: ...
-Moxie integration branch: ...
+Primary Orbit ticket: ORBIT-<number> / ticket URL
+Additional Orbit tickets: IDs + URLs, or None
+Fork branch URL / worktree: ...
+Moxie integration branch URL: ...
+Ticket links registered: Branches [...], Pull requests [...] (via API/MCP, or pasted by human, or still to do)
 Authoritative base: main/staging @ SHA
 Changed files and expected behavior: ...
 Tests/checks: passed [...], failed/skipped [...] with reasons
